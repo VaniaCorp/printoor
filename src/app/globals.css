@@ -1,0 +1,214 @@
+@import "tailwindcss";
+@layer base, theme, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@font-face {
+  font-family: 'Geist', sans-serif;
+  src: url('../fonts/Geist.ttf') format('ttf');
+  font-optical-sizing: auto;
+  font-weight: 200 300 400 500 600 700 800 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Playfair Display', serif;
+  src: url('../fonts/PlayfairDisplay.ttf') format('ttf');
+  font-optical-sizing: auto;
+  font-weight: 400 500 600 700 800 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Playfair Display Italic', serif;
+  src: url('../fonts/PlayfairDisplay-Italic.ttf') format('ttf');
+  font-optical-sizing: auto;
+  font-weight: 400 500 600 700 800 900;
+  font-style: italic;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-geist-sans: 'Geist', sans-serif;
+  --font-playfair-display: 'Playfair Display', serif;
+  --font-playfair-display-italic: 'Playfair Display Italic', serif;
+  --color-cream: #EAEAEA;
+}
+
+@theme {
+  --font-geist-sans: 'Geist', sans-serif;
+  --font-playfair-display: 'Playfair Display', serif;
+  --font-playfair-display-italic: 'Playfair Display Italic', serif;
+  --color-black: #171717;
+  --color-white: #ffffff;
+  --color-cream: #EAEAEA;
+}
+
+body {
+  width: 100%;
+  max-width: 120em;
+  margin: 0 auto;
+  height: 100vh;
+  overflow-x: hidden;
+  background: var(--background);
+  background-image: url('/images/hero-bg-mobile.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: var(--foreground);
+
+  h1 {
+    @apply text-5xl font-semibold;
+    line-height: normal;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold;
+    line-height: normal;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold;
+    line-height: normal;
+  }
+
+  h5 {
+    @apply text-sm font-semibold;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+}
+
+#why-us {
+  background-image: url('/images/hero-bg-mobile.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+@media (min-width: 768px) {
+  body {
+    background-image: url('/images/hero-bg.svg');
+
+    h1 {
+      @apply text-7xl font-semibold;
+      line-height: normal;
+    }
+
+    h2 {
+      @apply text-6xl font-semibold;
+      line-height: normal;
+    }
+
+    h3 {
+      @apply text-5xl font-semibold;
+      line-height: normal;
+    }
+
+    h5 {
+      @apply text-2xl font-semibold;
+      line-height: normal;
+    }
+  }
+
+  #why-us {
+    background-image: url('/images/hero-bg.svg');
+  }
+}
+
+.text-container {
+  display: block;
+  overflow: hidden;
+  width: max-content;
+  height: max-content;
+  /* border: solid; */
+  word-spacing: normal;
+}
+
+.paragraph-container {
+  will-change: transform;
+}
+
+.paragraph-text {
+  will-change: transform, opacity;
+}
+
+.reveal-cover {
+  will-change: transform;
+  backdrop-filter: blur(8px);
+}
+
+button.up-animation-black {
+  position: relative;
+  overflow: hidden;
+  padding: 0.75rem 1.5rem;
+  border-radius: 32px;
+  font-weight: 600;
+  z-index: 0;
+  background: var(--color-white);
+  color: var(--color-black);
+  transition: color 0.25s cubic-bezier(.4, 0, .2, 1);
+}
+
+button.up-animation-black::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  background: var(--color-black);
+  z-index: -1;
+  transition: height 0.35s cubic-bezier(.4, 0, .2, 1);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+button.up-animation-black:hover,
+button.up-animation-black:focus-visible {
+  color: var(--color-white);
+}
+
+button.up-animation-black:hover::before,
+button.up-animation-black:focus-visible::before {
+  height: 100%;
+}
+
+button.up-animation-black>* {
+  position: relative;
+  z-index: 1;
+}
+
+/** 
+ * .sr-only utility class for accessible, visually hidden content
+ * (screen reader only)
+ */
+ .sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+button.action-button {
+  @apply w-12 h-12 rounded-full border border-transparent flex items-center justify-center bg-black text-white transform transition-colors duration-200 ease-in-out;
+
+  &:hover {
+    @apply border-black;
+  }
+
+  &:disabled {
+    @apply bg-black/20 cursor-not-allowed;
+  }
+}
