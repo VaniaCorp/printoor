@@ -9,9 +9,11 @@ import useDeviceSize from '@/hooks/useDeviceSize';
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
 export default function Hero() {
-  const { isMobile } = useDeviceSize();
+  const { isMobile, width } = useDeviceSize();
 
   useGSAP(() => {
+    // Don't run animation until device size is determined
+    if (width === null) return;
     // Create master timeline
     const masterTL = gsap.timeline({
       scrollTrigger: {
@@ -85,7 +87,20 @@ export default function Hero() {
       splitTexts.forEach(splitText => splitText.revert());
       masterTL.kill();
     };
-  }, [])
+  }, [width])
+
+  // Don't render until device size is determined to prevent animation issues
+  if (width === null) {
+    return (
+      <main className='relative w-full h-screen max-h-[75em] bg-black/20 flex items-center'>
+        <section className='px-6 md:px-24'>
+          <div className='hero-content flex flex-col opacity-0'>
+            {/* Placeholder content */}
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className='relative w-full h-screen max-h-[75em] bg-black/20 flex items-center'>
@@ -104,7 +119,7 @@ export default function Hero() {
                 <h1 className='split-text text-white'>into Reality</h1>
               </div>
               <div className="text-container">
-                <h1 className='split-text font-playfair-display-italic italic text-white'>Through Prints</h1>
+                <h1 className='split-text font-playfair-display-italic italic text-white !font-medium'>Through Prints</h1>
               </div>
 
               <div className='paragraph-container relative mt-6 overflow-hidden'>
