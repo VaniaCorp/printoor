@@ -5,15 +5,18 @@ import { Icon } from "@iconify/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { useState } from "react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 export default function AboutUs() {
+  const [isHovered, setIsHovered] = useState(false);
+
   useGSAP(() => {
     const animText = document.querySelectorAll(".anim-hero");
     if (animText.length) {
       animText.forEach(item => {
-        const splitText = new SplitText(item, { type: "chars, words"});
+        const splitText = new SplitText(item, { type: "chars, words" });
         gsap.set(splitText.chars, {
           scrollTrigger: {
             trigger: item,
@@ -42,10 +45,16 @@ export default function AboutUs() {
           Perfect merch
         </h2>
 
-        <button type="button" className="flex items-center gap-3 !border border-black up-animation-black hover:!border">
+        <button
+          type="button"
+          className="!w-52 flex items-center gap-3 !border !border-black up-animation-black hover:!border"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <span className="sr-only">Get Started</span>
-          <Icon icon="mdi:whatsapp" width={20} height={20} />
-          GET STARTED
+          <Icon icon="mdi:whatsapp" width={20} height={20} className={`transition-transform duration-300 ${isHovered ? "-translate-x-100" : "translate-x-0"}`} />
+          <span className={`transition-transform duration-300 whitespace-nowrap ${isHovered ? "-translate-x-5" : "-translate-x-0"}`}>GET STARTED</span>
+          <Icon icon="mdi:whatsapp" width={20} height={20} className={`transition-transform duration-300 ${isHovered ? "-translate-x-3" : "translate-x-100"}`} />
         </button>
       </aside>
       <article className="w-full md:max-w-xl flex flex-col gap-3">

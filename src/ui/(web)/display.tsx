@@ -63,8 +63,8 @@ export default function Display() {
               <Image
                 src={item}
                 alt={`Display Image ${idx + 1}`}
-                width={isMobile ? 270 : 500}
-                height={isMobile ? 270 : 500}
+                width={isMobile ? 270 : 470}
+                height={isMobile ? 270 : 470}
                 aria-label={`Display Image ${idx + 1}`}
                 aria-labelledby={`Display Image ${idx + 1}`}
                 className="object-cover"

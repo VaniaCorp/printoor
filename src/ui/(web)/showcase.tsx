@@ -169,7 +169,8 @@ export default function Showcase() {
             </p>
             <button
               type="button"
-              className="up-animation-black !border-2 !border-black hover:!border-2 font-semibold mt-6"
+              className="px-4 py-3 rounded-full !border-2 !border-black hover:!border-2 font-semibold mt-6 !cursor-not-allowed disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled
             >
               COMING SOON
             </button>

@@ -5,12 +5,35 @@ import { nav_details } from "./_data";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import useDeviceSize from "@/hooks/useDeviceSize";
+import useScrollNav from "@/hooks/useScrollNav";
+import MobileNavigation from "./mobile-nav";
+import { useCallback, useState } from "react";
+import { smoother } from "@/utils/smooth-scroll";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+
+gsap.registerPlugin(useGSAP);
 
 export default function Navbar() {
   const { isMobile } = useDeviceSize();
+  const { isVisible, isDarkBg } = useScrollNav();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleOpen = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, [])
+
+  useGSAP(() => {
+    if (typeof window === "undefined") return;
+    smoother?.paused(isOpen);
+  }, [])
 
   return (
-    <menu className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[120em] h-max mx-auto bg-white/10 backdrop-blur-lg flex items-center px-6 py-8 z-50">
+    <menu
+      className={`fixed left-1/2 -translate-x-1/2 w-full max-w-[120em] h-max mx-auto backdrop-blur-lg flex items-center px-6 py-8 z-50 transition-all duration-300 ease-in-out ${isVisible ? 'top-0' : '-top-32'
+        } ${isDarkBg ? 'bg-white/10' : 'bg-black/80'
+        }`}
+    >
       <Image
         src={"/logo-white.webp"}
         width={isMobile ? 114 : 149}
@@ -19,7 +42,7 @@ export default function Navbar() {
         title="Printoor"
         aria-label="Printoor"
         aria-labelledby="Printoor"
-        className="object-cover border"
+        className="object-cover transition-opacity duration-300"
       />
 
       {isMobile ? (
@@ -29,6 +52,7 @@ export default function Navbar() {
           title="MENU"
           aria-label="MENU"
           aria-labelledby="MENU"
+          onClick={handleOpen}
         >
           <span className="sr-only">MENU</span>
           MENU
@@ -40,7 +64,7 @@ export default function Navbar() {
               <Link
                 key={idx}
                 href={`#${item?.link}`}
-                className="whitespace-nowrap text-white uppercase text-sm font-semibold font-gesit-sans"
+                className={`whitespace-nowrap uppercase text-sm font-semibold font-gesit-sans transition-colors duration-300 text-white`}
                 title={item?.title}
                 aria-label={item?.title}
                 aria-labelledby={item?.title}
@@ -74,6 +98,8 @@ export default function Navbar() {
           </aside>
         </>
       )}
+
+      <MobileNavigation isOpen={isOpen} onClose={handleOpen} />
     </menu>
   )
 }

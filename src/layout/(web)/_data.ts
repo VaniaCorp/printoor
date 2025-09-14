@@ -16,3 +16,48 @@ export const nav_details = [
     link: "reviews"
   }
 ]
+
+export const socials = [
+  {
+    icon: "uil:facebook",
+    link: "https://www.facebook.com/printoor/"
+  },
+  {
+    icon: "uil:instagram",
+    link: "https://www.instagram.com/printoor/"
+  },
+  {
+    icon: "mdi:youtube",
+    link: "https://www.youtube.com/printoor/"
+  },
+  {
+    icon: "mdi:twitter",
+    link: "https://www.x.com/printoor/"
+  }
+]
+
+export const footer_links = [
+  {
+    section: "Company",
+    links: [
+      { title: "About", href: "/about" },
+      { title: "Careers", href: "/careers" },
+      { title: "Contact Us", href: "/contact" },
+      { title: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    section: "Support",
+    links: [
+      { title: "FAQs", href: "/faqs" },
+      { title: "Help Center", href: "/help-center" },
+    ],
+  },
+  {
+    section: "Legal",
+    links: [
+      { title: "Terms of Use", href: "/terms" },
+      { title: "Privacy Policy", href: "/privacy-policy" },
+    ],
+  },
+];

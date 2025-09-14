@@ -57,6 +57,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   color: var(--foreground);
+  scroll-behavior: smooth;
+  
 
   h1 {
     @apply text-5xl font-semibold;
@@ -69,6 +71,11 @@ body {
   }
 
   h3 {
+    @apply text-2xl font-semibold;
+    line-height: normal;
+  }
+
+  h4 {
     @apply text-2xl font-semibold;
     line-height: normal;
   }
@@ -92,9 +99,31 @@ body {
 }
 
 
+form {
+  section {
+    span {
+      @apply bg-white flex flex-col rounded-4xl border border-white transition-all duration-150 ease-in-out overflow-hidden;
+
+      &:focus-within, &:has(input:focus), &:has(input:focus-visible) {
+        @apply border border-black outline-none;
+      }
+
+      label {
+        @apply ml-4 pt-2 font-geist-sans;
+      }
+
+      input {
+        @apply px-4 py-1.5 text-base font-geist-sans border-none outline-none;
+      }
+    }
+  }
+}
+
+
 @media (min-width: 768px) {
   body {
     background-image: url('/images/hero-bg.svg');
+    scroll-behavior: smooth;
 
     h1 {
       @apply text-7xl font-semibold;
@@ -108,6 +137,11 @@ body {
 
     h3 {
       @apply text-5xl font-semibold;
+      line-height: normal;
+    }
+
+    h4 {
+      @apply text-4xl font-semibold;
       line-height: normal;
     }
 
@@ -211,4 +245,10 @@ button.action-button {
   &:disabled {
     @apply bg-black/20 cursor-not-allowed;
   }
+}
+
+.triangle {
+  width: 32px;
+  height: 32px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
