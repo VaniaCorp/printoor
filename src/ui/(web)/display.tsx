@@ -3,23 +3,42 @@
 import { Icon } from "@iconify/react";
 import { image_display } from "./_data";
 import Image from "next/image";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function Display() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const { isMobile } = useDeviceSize();
 
+  // Calculate dimensions and visible images
+  const { imageWidth, imageHeight, gap, maxIndex } = useMemo(() => {
+    const imageWidth = isMobile ? 270 : 470;
+    const imageHeight = isMobile ? 270 : 470;
+    const gap = 12; // 3 * 4px (gap-3 in Tailwind = 0.75rem = 12px)
+    
+    // Calculate how many images can fit in the viewport
+    // Assuming container padding and accounting for gaps
+    const containerPadding = isMobile ? 24 : 48; // px-3 (12px) or px-6 (24px) on each side
+    const availableWidth = typeof window !== 'undefined' 
+      ? window.innerWidth - containerPadding 
+      : isMobile ? 350 : 1200; // fallback values
+    
+    const visibleImages = Math.floor((availableWidth + gap) / (imageWidth + gap));
+    const maxIndex = Math.max(0, image_display.length - visibleImages);
+    
+    return { imageWidth, imageHeight, gap, visibleImages, maxIndex };
+  }, [isMobile]);
+
   const handlePrevious = useCallback(() => {
     setCurrentIndex(prev => Math.max(0, prev - 1));
   }, []);
 
   const handleNext = useCallback(() => {
-    setCurrentIndex(prev => Math.min(image_display.length - 1, prev + 1));
-  }, []);
+    setCurrentIndex(prev => Math.min(maxIndex, prev + 1));
+  }, [maxIndex]);
 
   const isAtStart = currentIndex === 0;
-  const isAtEnd = currentIndex === image_display.length - 1;
+  const isAtEnd = currentIndex >= maxIndex;
 
   return (
     <section role="region" aria-label="Display" className="w-full h-[35em] md:h-[56.25em] bg-cream px-3 py-12 md:px-6 md:py-22 space-y-3">
@@ -55,20 +74,29 @@ export default function Display() {
 
       <section role="region" aria-label="Display Images" className="w-full h-full overflow-hidden">
         <div
-          className="w-full h-full flex gap-3 transition-transform duration-300 ease-out"
-          style={{ transform: `translateX(-${currentIndex * (100 / image_display.length)}%)` }}
+          className="h-full flex gap-3 transition-transform duration-300 ease-out"
+          style={{ 
+            width: `${image_display.length * (imageWidth + gap) - gap}px`,
+            transform: `translateX(-${currentIndex * (imageWidth + gap)}px)` 
+          }}
         >
           {image_display.map((item, idx) => (
-            <div key={item} className="flex-shrink-0" aria-label={`Display Image ${idx + 1}`} aria-labelledby={`Display Image ${idx + 1}`}>
+            <div 
+              key={item} 
+              className="flex-shrink-0 overflow-hidden rounded-sm" 
+              style={{ width: `${imageWidth}px`, height: `${imageHeight + (isMobile ? 70 : 170)}px` }}
+              aria-label={`Display Image ${idx + 1}`} 
+              aria-labelledby={`Display Image ${idx + 1}`}
+            >
               <Image
                 src={item}
                 alt={`Display Image ${idx + 1}`}
-                width={isMobile ? 270 : 470}
-                height={isMobile ? 270 : 470}
+                width={imageWidth}
+                height={imageHeight}
                 aria-label={`Display Image ${idx + 1}`}
                 aria-labelledby={`Display Image ${idx + 1}`}
-                className="object-cover"
-                priority={idx === currentIndex}
+                loading="lazy"
+                className="object-cover w-full h-full"
               />
             </div>
           ))}

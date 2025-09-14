@@ -31,10 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`
-          ${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}
-      >
+      <body className={`relative overflow-x-hidden ${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}>
         <Navbar />
         {children}
         <Footer />

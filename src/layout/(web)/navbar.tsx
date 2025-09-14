@@ -8,11 +8,6 @@ import useDeviceSize from "@/hooks/useDeviceSize";
 import useScrollNav from "@/hooks/useScrollNav";
 import MobileNavigation from "./mobile-nav";
 import { useCallback, useState } from "react";
-import { smoother } from "@/utils/smooth-scroll";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-
-gsap.registerPlugin(useGSAP);
 
 export default function Navbar() {
   const { isMobile } = useDeviceSize();
@@ -23,15 +18,10 @@ export default function Navbar() {
     setIsOpen(prev => !prev);
   }, [])
 
-  useGSAP(() => {
-    if (typeof window === "undefined") return;
-    smoother?.paused(isOpen);
-  }, [])
-
   return (
     <menu
-      className={`fixed left-1/2 -translate-x-1/2 w-full max-w-[120em] h-max mx-auto backdrop-blur-lg flex items-center px-6 py-8 z-50 transition-all duration-300 ease-in-out ${isVisible ? 'top-0' : '-top-32'
-        } ${isDarkBg ? 'bg-white/10' : 'bg-black/80'
+      className={`fixed left-1/2 -translate-x-1/2 w-full max-w-[120em] h-max mx-auto backdrop-blur-lg flex items-center px-6 py-8 z-50 transition-all duration-300 ease-in-out
+        ${isVisible ? 'top-0' : '-top-32'} ${isDarkBg ? 'bg-white/10' : 'bg-black/80'
         }`}
     >
       <Image
@@ -59,7 +49,7 @@ export default function Navbar() {
         </button>
       ) : (
         <>
-          <nav className="w-max ml-56 flex items-center gap-6">
+          <nav className="w-max ml-24 xl:ml-56 flex items-center gap-6">
             {nav_details.map((item, idx) => (
               <Link
                 key={idx}

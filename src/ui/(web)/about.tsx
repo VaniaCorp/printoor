@@ -47,7 +47,7 @@ export default function AboutUs() {
 
         <button
           type="button"
-          className="!w-52 flex items-center gap-3 !border !border-black up-animation-black hover:!border"
+          className="flex items-center gap-3 !border !border-black up-animation-black hover:!border"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >

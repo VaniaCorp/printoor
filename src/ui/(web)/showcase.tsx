@@ -146,7 +146,7 @@ export default function Showcase() {
       </div>
 
       <div className="relative z-10 flex items-center justify-center w-full h-full">
-        <div className="relative w-full max-w-[21.563em] md:max-w-[39em] bg-white p-3 md:p-6 flex flex-col space-y-6">
+        <div className="relative w-full max-w-[21.563em] md:max-w-[28em] xl:max-w-[39em] bg-white p-3 md:p-6 flex flex-col space-y-6">
           <Image
             ref={imgRef}
             src={current.image}

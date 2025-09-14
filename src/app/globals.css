@@ -58,7 +58,7 @@ body {
   background-repeat: no-repeat;
   color: var(--foreground);
   scroll-behavior: smooth;
-  
+
 
   h1 {
     @apply text-5xl font-semibold;
@@ -126,27 +126,27 @@ form {
     scroll-behavior: smooth;
 
     h1 {
-      @apply text-7xl font-semibold;
+      @apply text-5xl xl:text-7xl font-semibold;
       line-height: normal;
     }
 
     h2 {
-      @apply text-6xl font-semibold;
+      @apply text-4xl xl:text-6xl font-semibold;
       line-height: normal;
     }
 
     h3 {
-      @apply text-5xl font-semibold;
+      @apply text-3xl xl:text-5xl font-semibold;
       line-height: normal;
     }
 
     h4 {
-      @apply text-4xl font-semibold;
+      @apply text-2xl xl:text-4xl font-semibold;
       line-height: normal;
     }
 
     h5 {
-      @apply text-2xl font-semibold;
+      @apply text-xl xl:text-2xl font-semibold;
       line-height: normal;
     }
   }
