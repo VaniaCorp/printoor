@@ -1,9 +1,9 @@
 export const image_display = [
-  "/images/display/one.svg",
-  "/images/display/two.svg",
-  "/images/display/three.svg",
-  "/images/display/four.svg",
-  "/images/display/five.svg",
+  "/images/display/one.webp",
+  "/images/display/two.webp",
+  "/images/display/three.webp",
+  "/images/display/four.webp",
+  "/images/display/five.webp",
 ]
 
 export const about_details = [
@@ -46,19 +46,19 @@ export const why_us_details = [
 
 export const showcase_details = [
   {
-    bg_desktop: "/images/showcase/one-bg-desktop.svg",
-    bg_mobile: "/images/showcase/one-bg-mobile.svg",
-    image: "/images/showcase/one-main.svg",
+    bg_desktop: "/images/showcase/one-bg-desktop.webp",
+    bg_mobile: "/images/showcase/one-bg-mobile.webp",
+    image: "/images/showcase/one-main.webp",
   },
   {
-    bg_desktop: "/images/showcase/two-bg-desktop.svg",
-    bg_mobile: "/images/showcase/two-bg-mobile.svg",
-    image: "/images/showcase/two-main.svg",
+    bg_desktop: "/images/showcase/two-bg-desktop.webp",
+    bg_mobile: "/images/showcase/two-bg-mobile.webp",
+    image: "/images/showcase/two-main.webp",
   },
   {
-    bg_desktop: "/images/showcase/three-bg-desktop.svg",
-    bg_mobile: "/images/showcase/three-bg-mobile.svg",
-    image: "/images/showcase/three-main.svg",
+    bg_desktop: "/images/showcase/three-bg-desktop.webp",
+    bg_mobile: "/images/showcase/three-bg-mobile.webp",
+    image: "/images/showcase/three-main.webp",
   },
 ]
 

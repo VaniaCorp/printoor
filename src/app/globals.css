@@ -53,7 +53,7 @@ body {
   height: 100vh;
   overflow-x: hidden;
   background: var(--background);
-  background-image: url('/images/hero-bg-mobile.svg');
+  background-image: url('/images/hero-bg-mobile.webp');
   background-size: cover;
   background-repeat: no-repeat;
   color: var(--foreground);
@@ -92,7 +92,7 @@ body {
 }
 
 #why-us {
-  background-image: url('/images/hero-bg-mobile.svg');
+  background-image: url('/images/hero-bg-mobile.webp');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -122,7 +122,7 @@ form {
 
 @media (min-width: 768px) {
   body {
-    background-image: url('/images/hero-bg.svg');
+    background-image: url('/images/hero-bg.webp');
     scroll-behavior: smooth;
 
     h1 {
@@ -152,7 +152,7 @@ form {
   }
 
   #why-us {
-    background-image: url('/images/hero-bg.svg');
+    background-image: url('/images/hero-bg.webp');
   }
 }
 

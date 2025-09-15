@@ -10,7 +10,7 @@ export default function Footer() {
   const { isMobile } = useDeviceSize();
 
   return (
-    <footer role="contentinfo" aria-label="Footer" className="relative w-full mx-auto h-max xl:h-full px-6 py-8 md:py-24 md:px-20 space-y-6 flex flex-col-reverse md:flex-wrap xl:flex-nowrap md:flex-row items-start md:justify-between bg-[url('/images/footer-img.svg')] bg-cover bg-center bg-no-repeat">
+    <footer role="contentinfo" aria-label="Footer" className="relative w-full mx-auto h-max xl:h-full px-6 py-8 md:py-24 md:px-20 space-y-6 flex flex-col-reverse md:flex-wrap xl:flex-nowrap md:flex-row items-start md:justify-between bg-[url('/images/footer-img.webp')] bg-cover bg-center bg-no-repeat">
       <aside className="w-max space-y-12">
         <Image
           src={'/logo-black.webp'}
