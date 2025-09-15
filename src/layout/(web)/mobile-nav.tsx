@@ -50,7 +50,7 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
       </nav>
 
       <section
-        className="relative w-full h-full bg-[url('/images/footer-img.svg')] bg-cover bg-center bg-no-repeat px-6 py-8 flex items-end"
+        className="relative w-full h-full bg-[url('/images/footer-img.webp')] bg-cover bg-center bg-no-repeat px-6 py-8 flex items-end"
       >
         <aside className="w-max space-y-12">
           <Image
