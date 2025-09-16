@@ -102,6 +102,7 @@ export default function Showcase() {
       ref={containerRef}
       role="region"
       aria-label="Showcase"
+      id="merch-shop"
       className="relative w-full h-full max-h-[43.75em] md:max-h-[55em] overflow-hidden select-none cursor-pointer"
       onClick={handleEdgeClick}
     >

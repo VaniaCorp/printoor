@@ -91,7 +91,7 @@ body {
   }
 }
 
-#why-us {
+#why-choose-us {
   background-image: url('/images/hero-bg-mobile.webp');
   background-size: cover;
   background-repeat: no-repeat;
@@ -151,7 +151,7 @@ form {
     }
   }
 
-  #why-us {
+  #why-choose-us {
     background-image: url('/images/hero-bg.webp');
   }
 }

@@ -3,12 +3,15 @@
 import { Icon } from "@iconify/react";
 import { image_display } from "./_data";
 import Image from "next/image";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function Display() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const { isMobile } = useDeviceSize();
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const isDragging = useRef<boolean>(false);
 
   // Calculate dimensions and visible images
   const { imageWidth, imageHeight, gap, maxIndex } = useMemo(() => {
@@ -37,11 +40,80 @@ export default function Display() {
     setCurrentIndex(prev => Math.min(maxIndex, prev + 1));
   }, [maxIndex]);
 
+  // Touch event handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe && currentIndex < maxIndex) {
+      handleNext();
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      handlePrevious();
+    }
+
+    // Reset touch positions
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  }, [currentIndex, maxIndex, handleNext, handlePrevious]);
+
+  // Mouse event handlers for desktop drag support
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    isDragging.current = true;
+    touchStartX.current = e.clientX;
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    touchEndX.current = e.clientX;
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe && currentIndex < maxIndex) {
+      handleNext();
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      handlePrevious();
+    }
+
+    // Reset positions
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  }, [currentIndex, maxIndex, handleNext, handlePrevious]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (isDragging.current) {
+      isDragging.current = false;
+      touchStartX.current = 0;
+      touchEndX.current = 0;
+    }
+  }, []);
+
   const isAtStart = currentIndex === 0;
   const isAtEnd = currentIndex >= maxIndex;
 
   return (
-    <section role="region" aria-label="Display" className="w-full h-[35em] md:h-[56.25em] bg-cream px-3 py-12 md:px-6 md:py-22 space-y-3">
+    <section role="region" aria-label="Display" id="browse-portfolio" className="w-full h-[35em] md:h-[56.25em] bg-cream px-3 py-12 md:px-6 md:py-22 space-y-3">
       <header className="w-full flex items-end justify-between">
         <h3 className="w-full max-w-xs md:max-w-5xl font-geist-sans">
           We pride ourselves in efficiency and effectiveness in quality prints delivery
@@ -72,9 +144,20 @@ export default function Display() {
         </aside>
       </header>
 
-      <section role="region" aria-label="Display Images" className="w-full h-full overflow-hidden">
+      <section 
+        role="region" 
+        aria-label="Display Images" 
+        className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing select-none"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+      >
         <div
-          className="h-full flex gap-3 transition-transform duration-300 ease-out"
+          className="h-full flex gap-3 transition-transform duration-300 ease-out pointer-events-none"
           style={{ 
             width: `${image_display.length * (imageWidth + gap) - gap}px`,
             transform: `translateX(-${currentIndex * (imageWidth + gap)}px)` 

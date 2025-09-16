@@ -8,6 +8,7 @@ import useDeviceSize from "@/hooks/useDeviceSize";
 import useScrollNav from "@/hooks/useScrollNav";
 import MobileNavigation from "./mobile-nav";
 import { useCallback, useState } from "react";
+import { smoothScrollTo } from "@/utils/smooth-scroll-to";
 
 export default function Navbar() {
   const { isMobile } = useDeviceSize();
@@ -16,7 +17,12 @@ export default function Navbar() {
 
   const handleOpen = useCallback(() => {
     setIsOpen(prev => !prev);
-  }, [])
+  }, []);
+
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
+    e.preventDefault();
+    smoothScrollTo(`#${link}`);
+  }, []);
 
   return (
     <menu
@@ -54,6 +60,7 @@ export default function Navbar() {
               <Link
                 key={idx}
                 href={`#${item?.link}`}
+                onClick={(e) => handleNavClick(e, item?.link)}
                 className={`whitespace-nowrap uppercase text-sm font-semibold font-gesit-sans transition-colors duration-300 text-white`}
                 title={item?.title}
                 aria-label={item?.title}

@@ -33,7 +33,7 @@ export const why_us_details = [
     icon: "mingcute:receive-money-line",
   },
   {
-    title: "Swift delivery within Enugu and Nsukka",
+    title: "Swift delivery Globally",
     description: "We pride ourselves on helping our community grow and thrive. We treat our customers like family and want to continue building strong, trusting relationships.",
     icon: "mynaui:truck"
   },

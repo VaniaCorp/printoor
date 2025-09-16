@@ -4,7 +4,7 @@ import { reviews_details } from "./_data";
 
 export default function Reviews() {
   return (
-    <section role="region" aria-label="Reviews" className="relative w-full h-full max-h-[32.5em] md:max-h-[45em] bg-white flex flex-col items-center justify-center">
+    <section role="region" aria-label="Reviews" id="reviews" className="relative w-full h-full max-h-[32.5em] md:max-h-[45em] bg-white flex flex-col items-center justify-center">
       <div className="w-max space-y-1">
         <p className="text-xs md:text-base font-geist-sans uppercase opacity-70 text-center font-semibold">OUR PROOF OF WORK</p>
         <h2 className="font-playfair-display-italic italic">

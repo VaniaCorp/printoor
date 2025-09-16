@@ -5,7 +5,7 @@ import { why_us_details } from "./_data";
 
 export default function WhyUs() {
   return (
-    <section role="region" aria-label="Why Us" id="why-us" className="relative w-full h-full max-h-[43.75em] md:max-h-[55em] flex flex-col items-center justify-center">
+    <section role="region" aria-label="Why Choose Us" id="why-choose-us" className="relative w-full h-full max-h-[43.75em] md:max-h-[55em] flex flex-col items-center justify-center">
       <div className="absolute inset-0 bg-black/70"></div>
 
       <h3 className="text-white z-10 mb-12 md:mb-24 italic font-playfair-display-italic md:not-italic md:font-geist-sans">

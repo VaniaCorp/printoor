@@ -8,6 +8,8 @@ import useDeviceSize from "@/hooks/useDeviceSize";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { smoother } from "@/utils/smooth-scroll";
+import { smoothScrollTo } from "@/utils/smooth-scroll-to";
+import { useCallback, useEffect } from "react";
 
 type MobileNavigationProps = {
   isOpen: boolean;
@@ -22,7 +24,53 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
   useGSAP(() => {
     if (typeof window === "undefined") return;
     smoother?.paused(isOpen);
-  }, [])
+  }, [isOpen]);
+
+  // Prevent body scrolling when mobile nav is open
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    if (isOpen) {
+      // Store current scroll position
+      const scrollY = window.scrollY;
+      
+      // Prevent scrolling
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Restore scrolling
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      
+      // Restore scroll position
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+
+    // Cleanup function to ensure scroll is restored if component unmounts
+    return () => {
+      if (isOpen) {
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
+      }
+    };
+  }, [isOpen]);
+
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
+    e.preventDefault();
+    smoothScrollTo(`#${link}`);
+    onClose(); // Close mobile nav after clicking
+  }, [onClose]);
 
   return (
     <menu className={`fixed top-0 left-0 w-full h-screen flex flex-col bg-white z-50 transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -41,6 +89,7 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
           <Link
             key={idx}
             href={`#${item?.link}`}
+            onClick={(e) => handleNavClick(e, item?.link)}
             className="w-max uppercase text-4xl font-semibold font-gesit-sans transition-colors duration-300 text-black"
           >
             <span className="sr-only">{item?.title}</span>
@@ -67,7 +116,7 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
           <div role="navigation" aria-label="Socials Display" className="w-full flex items-center justify-between">
             {socials.map((item, idx) => (
               <Link
-                href={item?.link}
+                href={`#${item?.link}`}
                 key={idx}
                 title={item?.icon}
                 aria-label={item?.icon}
