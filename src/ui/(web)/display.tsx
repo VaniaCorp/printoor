@@ -12,6 +12,9 @@ export default function Display() {
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
   const isDragging = useRef<boolean>(false);
+  const dragDeltaRef = useRef<number>(0);
+  const rafRef = useRef<number | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
   // Calculate dimensions and visible images
   const { imageWidth, imageHeight, gap, maxIndex } = useMemo(() => {
@@ -43,69 +46,122 @@ export default function Display() {
   // Touch event handlers
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.targetTouches[0].clientX;
+    isDragging.current = true;
+    dragDeltaRef.current = 0;
+    // Disable transition during drag for buttery movement
+    if (trackRef.current) {
+      trackRef.current.classList.add("transition-none");
+    }
   }, []);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isDragging.current) return;
     touchEndX.current = e.targetTouches[0].clientX;
-  }, []);
+    const delta = touchEndX.current - touchStartX.current;
+    dragDeltaRef.current = delta;
+    // Apply transform with rAF to keep 60fps
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      if (!trackRef.current) return;
+      const unit = imageWidth + gap;
+      const base = -currentIndex * unit;
+      // Soft bounds resistance
+      const maxTranslate = 0;
+      const minTranslate = -maxIndex * unit;
+      let next = base + delta;
+      if (next > maxTranslate) {
+        next = maxTranslate + (next - maxTranslate) * 0.2;
+      } else if (next < minTranslate) {
+        next = minTranslate + (next - minTranslate) * 0.2;
+      }
+      trackRef.current.style.transform = `translateX(${next}px)`;
+    });
+  }, [currentIndex, gap, imageWidth, maxIndex]);
 
   const handleTouchEnd = useCallback(() => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    
-    const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe && currentIndex < maxIndex) {
-      handleNext();
-    }
-    if (isRightSwipe && currentIndex > 0) {
-      handlePrevious();
-    }
-
-    // Reset touch positions
-    touchStartX.current = 0;
-    touchEndX.current = 0;
-  }, [currentIndex, maxIndex, handleNext, handlePrevious]);
-
-  // Mouse event handlers for desktop drag support
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    isDragging.current = true;
-    touchStartX.current = e.clientX;
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging.current) return;
-    touchEndX.current = e.clientX;
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    
-    if (!touchStartX.current || !touchEndX.current) return;
-    
-    const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe && currentIndex < maxIndex) {
-      handleNext();
+    if (trackRef.current) {
+      trackRef.current.classList.remove("transition-none");
     }
-    if (isRightSwipe && currentIndex > 0) {
-      handlePrevious();
+    const delta = dragDeltaRef.current || (touchEndX.current - touchStartX.current);
+    const unit = imageWidth + gap;
+    const shift = Math.round(-delta / unit); // positive when dragging left
+    if (shift !== 0) {
+      setCurrentIndex(prev => {
+        const next = Math.min(maxIndex, Math.max(0, prev + shift));
+        return next;
+      });
     }
 
     // Reset positions
     touchStartX.current = 0;
     touchEndX.current = 0;
-  }, [currentIndex, maxIndex, handleNext, handlePrevious]);
+    dragDeltaRef.current = 0;
+  }, [gap, imageWidth, maxIndex]);
+
+  // Mouse event handlers for desktop drag support
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    isDragging.current = true;
+    touchStartX.current = e.clientX;
+    dragDeltaRef.current = 0;
+    if (trackRef.current) {
+      trackRef.current.classList.add("transition-none");
+    }
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    touchEndX.current = e.clientX;
+    const delta = touchEndX.current - touchStartX.current;
+    dragDeltaRef.current = delta;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      if (!trackRef.current) return;
+      const unit = imageWidth + gap;
+      const base = -currentIndex * unit;
+      const maxTranslate = 0;
+      const minTranslate = -maxIndex * unit;
+      let next = base + delta;
+      if (next > maxTranslate) {
+        next = maxTranslate + (next - maxTranslate) * 0.2;
+      } else if (next < minTranslate) {
+        next = minTranslate + (next - minTranslate) * 0.2;
+      }
+      trackRef.current.style.transform = `translateX(${next}px)`;
+    });
+  }, [currentIndex, gap, imageWidth, maxIndex]);
+
+  const handleMouseUp = useCallback(() => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    if (trackRef.current) {
+      trackRef.current.classList.remove("transition-none");
+    }
+    const delta = dragDeltaRef.current || (touchEndX.current - touchStartX.current);
+    const unit = imageWidth + gap;
+    const shift = Math.round(-delta / unit);
+    if (shift !== 0) {
+      setCurrentIndex(prev => {
+        const next = Math.min(maxIndex, Math.max(0, prev + shift));
+        return next;
+      });
+    }
+    // Reset positions
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+    dragDeltaRef.current = 0;
+  }, [gap, imageWidth, maxIndex]);
 
   const handleMouseLeave = useCallback(() => {
     if (isDragging.current) {
       isDragging.current = false;
       touchStartX.current = 0;
       touchEndX.current = 0;
+      dragDeltaRef.current = 0;
+      if (trackRef.current) {
+        trackRef.current.classList.remove("transition-none");
+      }
     }
   }, []);
 
@@ -158,6 +214,7 @@ export default function Display() {
       >
         <div
           className="h-full flex gap-3 transition-transform duration-300 ease-out pointer-events-none"
+          ref={trackRef}
           style={{ 
             width: `${image_display.length * (imageWidth + gap) - gap}px`,
             transform: `translateX(-${currentIndex * (imageWidth + gap)}px)` 

@@ -110,13 +110,13 @@ export default function Hero() {
             <>
               <span className='sr-only'>Shaping Design Visions into Reality Through Prints</span>
               <div className="text-container">
-                <h1 className='split-text text-white'>Shaping</h1>
+                <h1 className='split-text text-white font-geist-sans'>Shaping</h1>
               </div>
               <div className="text-container">
-                <h1 className='split-text text-white'>Design Visions</h1>
+                <h1 className='split-text text-white font-geist-sans'>Design Visions</h1>
               </div>
               <div className="text-container">
-                <h1 className='split-text text-white'>into Reality</h1>
+                <h1 className='split-text text-white font-geist-sans'>into Reality</h1>
               </div>
               <div className="text-container">
                 <h1 className='split-text font-playfair-display-italic italic text-white !font-medium'>Through Prints</h1>
@@ -134,10 +134,10 @@ export default function Hero() {
             <>
               <span className='sr-only'>Shaping Design Visions into Reality Through Prints</span>
               <div className="text-container">
-                <h1 className='split-text text-white'>Shaping Design</h1>
+                <h1 className='split-text text-white font-geist-sans'>Shaping Design</h1>
               </div>
               <div className="text-container">
-                <h1 className='split-text text-white'>Visions into Reality</h1>
+                <h1 className='split-text text-white font-geist-sans'>Visions into Reality</h1>
               </div>
               <div className="text-container">
                 <h1 className='split-text font-playfair-display-italic italic text-white'>Through Prints</h1>
