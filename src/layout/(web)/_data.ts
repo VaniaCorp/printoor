@@ -20,19 +20,19 @@ export const nav_details = [
 export const socials = [
   {
     icon: "uil:facebook",
-    link: "https://www.facebook.com/printoor/"
+    link: "https://www.facebook.com/printoorxyz/"
   },
   {
     icon: "uil:instagram",
-    link: "https://www.instagram.com/printoor/"
+    link: "https://www.instagram.com/printoorxyz/"
   },
   {
-    icon: "mdi:youtube",
-    link: "https://www.youtube.com/printoor/"
+    icon: "ic:outline-tiktok",
+    link: "https://www.tiktok.com/printoorxyz/"
   },
   {
-    icon: "mdi:twitter",
-    link: "https://www.x.com/printoor/"
+    icon: "line-md:twitter-x",
+    link: "https://www.x.com/printoorxyz/"
   }
 ]
 
