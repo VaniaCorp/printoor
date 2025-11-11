@@ -9,6 +9,7 @@ import useScrollNav from "@/hooks/useScrollNav";
 import MobileNavigation from "./mobile-nav";
 import { useCallback, useState } from "react";
 import { smoothScrollTo } from "@/utils/smooth-scroll-to";
+import { handleContactUs } from "@/utils/contact-us";
 
 export default function Navbar() {
   const { isMobile } = useDeviceSize();
@@ -79,6 +80,7 @@ export default function Navbar() {
               title="CONTACT US"
               aria-label="CONTACT US"
               aria-labelledby="CONTACT US"
+              onClick={handleContactUs}
             >
               <span className="sr-only">CONTACT US</span>
               CONTACT US</button>
@@ -88,6 +90,7 @@ export default function Navbar() {
               title="WHATSAPP"
               aria-label="WHATSAPP"
               aria-labelledby="WHATSAPP"
+              onClick={handleContactUs}
             >
               <span className="sr-only">WHATSAPP</span>
               <Icon icon="mdi:whatsapp" width={20} height={20} />

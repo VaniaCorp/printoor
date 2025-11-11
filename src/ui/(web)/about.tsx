@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useState } from "react";
+import { handleContactUs } from "@/utils/contact-us";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
@@ -50,6 +51,7 @@ export default function AboutUs() {
           className="flex items-center gap-3 !border !border-black up-animation-black hover:!border"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onClick={handleContactUs}
         >
           <span className="sr-only">Get Started</span>
           <Icon icon="mdi:whatsapp" width={20} height={20} className={`transition-transform duration-300 ${isHovered ? "-translate-x-100" : "translate-x-0"}`} />

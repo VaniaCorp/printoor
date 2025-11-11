@@ -5,6 +5,7 @@ import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Icon } from '@iconify/react';
 import useDeviceSize from '@/hooks/useDeviceSize';
+import { handleContactUs } from '@/utils/contact-us';
 
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
@@ -160,6 +161,7 @@ export default function Hero() {
           aria-label='PLACE ORDER'
           aria-labelledby='PLACE ORDER'
           className='up-animation-black flex items-center gap-2 mt-6'
+          onClick={handleContactUs}
         >
           <span className='sr-only'>PLACE ORDER</span>
           <Icon icon="mdi:whatsapp" width={20} height={20} />
